@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Registration</title>
+
+</head>
+<body>
+
+<div class="panel well" style="width: 700px; padding:150px; text-align: center">
+    <h1>Registration</h1>
+    <form id="reg-form">
+        <div class="form-group mr-5">
+            <label for="username" class="mr-3">Username</label>
+            <input type="text" class="form-control" id="username">
+        </div>
+        <div class="form-group mr-5">
+            <label for="password" class="mr-3">Password</label>
+            <input type="text" class="form-control" id="password">
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit" value="Submit Form">Confirm</button>
+        <br>
+        <br>
+        <td>
+            <a href="login.html" class="btn btn-primary">Log in</a>
+        </td>
+        <br>
+        <br>
+        <p>В консоли хешированный пароль</p>
+        <p>Используй его при авторизации</p>
+    </form>
+</div>
+
+
+
+<script>
+    const form = document.getElementById('reg-form')
+    form.addEventListener('submit', registerUser)
+
+    async function registerUser(event) {
+        event.preventDefault()
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+        const result = await fetch('/api/register', { //fetch делает запрос использ промис
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json '   //полное описание данных которое находится в теле
+            },
+            body: JSON.stringify({
+                username, password
+            })
+        }).then((res) => res.json())
+
+        if(result.status === 'ok'){
+            alert('Пользователь успешно зарегистриророван!')
+        } else {
+            alert(result.error)
+        }
+
+    }
+
+
+
+</script>
+</body>
+</html>
